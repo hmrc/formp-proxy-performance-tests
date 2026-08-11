@@ -1,6 +1,17 @@
 /*
  * Copyright 2023 HM Revenue & Customs
  *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package uk.gov.hmrc.perftests.charities
@@ -11,10 +22,11 @@ import io.gatling.http.request.builder.HttpRequestBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 import uk.gov.hmrc.perftests.BaseRequests
 
+import java.util.concurrent.ThreadLocalRandom
 import scala.util.Random
 
 object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
-  //val baseUrl: String                           = baseUrlFor("charities-claims-validation")
+
   val getUnregulatedDonationsUrlRef1                = s"$formpUrl/charities/OR1111/unregulated-donations"
   val postUnregulatedDonationsUrlRef1                = s"$formpUrl/charities/OR1111/unregulated-donations"
 
@@ -27,18 +39,45 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
   val getUnregulatedDonationsUrlRef4                = s"$formpUrl/charities/OR4444/unregulated-donations"
   val postUnregulatedDonationsUrlRef4                = s"$formpUrl/charities/OR4444/unregulated-donations"
 
+  val postUnregulatedDonationsUrlRandom                = s"$formpUrl/charities/OR4444/unregulated-donations"
+
   def commonHeaders: Map[CharSequence, String] = Map(
     HttpHeaderNames.Authorization -> s"#{bearerToken}",
     HttpHeaderNames.ContentType   -> "application/json",
     "X-Session-ID" -> "693b2579c9ae70489252dba5"
   )
 
-  def random10DigitNumber(): String =
-    (Random.nextInt(9) + 1).toString +
-      (1 to 9).map(_ => Random.nextInt(10)).mkString
+  def randomCharityRef(): String = {
+    val letters =
+      (1 to 2)
+        .map(_ => ('A' + Random.nextInt(26)).toChar)
+        .mkString
+    val numbers =
+      Random.nextInt(90000) + 10000
+    s"$letters$numbers"
+  }
 
+  val postUnregulatedDonationsRandom: HttpRequestBuilder =
+    http("POST Unregulated Donations for Charity Ref randomly generated")
+      .post { _ =>
+        val reference = randomCharityRef()
+        val requestUrl = s"$formpUrl/charities/$reference/unregulated-donations"
+        requestUrl
+      }
+      .headers(commonHeaders)
+      .body(
+        StringBody(
+          """
+          {
+            |  "claimId": #{randomLong(1,999999999)},
+            |  "amount": #{randomLong(1,99999999)}
+            |}
+            |""".stripMargin
+        )
+      )
+      .asJson
+      .check(status.is(200))
 
-  // val randomClaimID = random10DigitNumber()
 
   val getUnregulatedDonationsRef1: HttpRequestBuilder =
     http("GET Unregulated Donations for Charity Ref OR1111")
@@ -55,16 +94,17 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
       .headers(commonHeaders)
       .body(
         StringBody(
-          s"""
+          """
           {
-            |  "claimId": ${random10DigitNumber()},
-            |  "amount": 21345
-            |}
-            |""".stripMargin
+             |  "claimId": #{randomLong(1,999999999)},
+             |  "amount": #{randomLong(1,99999999)}
+             |}
+             |""".stripMargin
         )
       )
       .asJson
       .check(status.is(200))
+
 
   val getUnregulatedDonationsRef2: HttpRequestBuilder =
     http("GET Unregulated Donations for Charity Ref OR2222")
@@ -83,8 +123,8 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
         StringBody(
           s"""
           {
-             |  "claimId": ${random10DigitNumber()},
-             |  "amount": 21111
+             |  "claimId": #{randomLong(1,999999999)},
+             |  "amount": #{randomLong(1,99999999)}
              |}
              |""".stripMargin
         )
@@ -109,8 +149,8 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
         StringBody(
           s"""
           {
-             |  "claimId": ${random10DigitNumber()},
-             |  "amount": 32453
+             |  "claimId": #{randomLong(1,999999999)},
+             |  "amount": #{randomLong(1,99999999)}
              |}
              |""".stripMargin
         )
@@ -135,14 +175,13 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
         StringBody(
           s"""
           {
-             |  "claimId": ${random10DigitNumber()},
-             |  "amount": 10000
+             |  "claimId": #{randomLong(1,999999999)},
+             |  "amount": #{randomLong(1,99999999)}
              |}
              |""".stripMargin
         )
       )
       .asJson
       .check(status.is(200))
-
 
 }
