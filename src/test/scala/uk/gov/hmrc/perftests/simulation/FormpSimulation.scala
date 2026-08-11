@@ -7,7 +7,7 @@ package uk.gov.hmrc.perftests.simulation
 
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
 
-class CharitiesFormpSimulation
+class FormpSimulation
   extends PerformanceTestRunner
     with CharitiesFormpAPI {
   runSimulation()

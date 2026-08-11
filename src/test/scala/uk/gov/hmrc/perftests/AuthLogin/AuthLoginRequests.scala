@@ -6,6 +6,7 @@
 package uk.gov.hmrc.perftests.AuthLogin
 
 import io.gatling.core.Predef._
+import io.gatling.core.action.builder.ActionBuilder
 import io.gatling.core.structure.ChainBuilder
 import io.gatling.http.Predef._
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
@@ -15,7 +16,7 @@ import scala.util.Random.alphanumeric
 
 object AuthLoginRequests extends ServicesConfiguration with BaseRequests {
 
-  def getAuthToken(authPayload: () => String): ChainBuilder = exec(
+  def getAuthToken(authPayload: () => String): List[ActionBuilder] = exec(
     http("Insert Auth Record for Org")
       .post(authLoginApiUrl)
       .headers(Map(HttpHeaderNames.ContentType -> "application/json"))
@@ -23,9 +24,9 @@ object AuthLoginRequests extends ServicesConfiguration with BaseRequests {
       .asJson
       .check(status.is(201))
       .check(header(HttpHeaderNames.Authorization).optional.saveAs("bearerToken"))
-  )
+  ).actionBuilders
 
-  private def authPayloadCharitiesOrg(): String = {
+  def authPayloadCharitiesOrg(): String = {
     val CredIdLength = 16
     val credId       = alphanumeric.take(CredIdLength).mkString
 
