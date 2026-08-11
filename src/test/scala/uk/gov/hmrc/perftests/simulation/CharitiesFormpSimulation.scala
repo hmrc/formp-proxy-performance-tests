@@ -3,7 +3,7 @@
  *
  */
 
-package uk.gov.hmrc.perftests.charities.simulation
+package uk.gov.hmrc.perftests.simulation
 
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
 
