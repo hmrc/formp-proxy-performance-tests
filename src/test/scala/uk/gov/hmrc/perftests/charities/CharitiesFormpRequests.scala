@@ -27,24 +27,24 @@ import scala.util.Random
 
 object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
 
-  val getUnregulatedDonationsUrlRef1                = s"$formpUrl/charities/OR1111/unregulated-donations"
-  val postUnregulatedDonationsUrlRef1                = s"$formpUrl/charities/OR1111/unregulated-donations"
+  val getUnregulatedDonationsUrlRef1  = s"$formpUrl/charities/OR1111/unregulated-donations"
+  val postUnregulatedDonationsUrlRef1 = s"$formpUrl/charities/OR1111/unregulated-donations"
 
-  val getUnregulatedDonationsUrlRef2                = s"$formpUrl/charities/OR2222/unregulated-donations"
-  val postUnregulatedDonationsUrlRef2                = s"$formpUrl/charities/OR2222/unregulated-donations"
+  val getUnregulatedDonationsUrlRef2  = s"$formpUrl/charities/OR2222/unregulated-donations"
+  val postUnregulatedDonationsUrlRef2 = s"$formpUrl/charities/OR2222/unregulated-donations"
 
-  val getUnregulatedDonationsUrlRef3                = s"$formpUrl/charities/OR3333/unregulated-donations"
-  val postUnregulatedDonationsUrlRef3                = s"$formpUrl/charities/OR3333/unregulated-donations"
+  val getUnregulatedDonationsUrlRef3  = s"$formpUrl/charities/OR3333/unregulated-donations"
+  val postUnregulatedDonationsUrlRef3 = s"$formpUrl/charities/OR3333/unregulated-donations"
 
-  val getUnregulatedDonationsUrlRef4                = s"$formpUrl/charities/OR4444/unregulated-donations"
-  val postUnregulatedDonationsUrlRef4                = s"$formpUrl/charities/OR4444/unregulated-donations"
+  val getUnregulatedDonationsUrlRef4  = s"$formpUrl/charities/OR4444/unregulated-donations"
+  val postUnregulatedDonationsUrlRef4 = s"$formpUrl/charities/OR4444/unregulated-donations"
 
-  val postUnregulatedDonationsUrlRandom                = s"$formpUrl/charities/OR4444/unregulated-donations"
+  val postUnregulatedDonationsUrlRandom = s"$formpUrl/charities/OR4444/unregulated-donations"
 
   def commonHeaders: Map[CharSequence, String] = Map(
     HttpHeaderNames.Authorization -> s"#{bearerToken}",
     HttpHeaderNames.ContentType   -> "application/json",
-    "X-Session-ID" -> "693b2579c9ae70489252dba5"
+    "X-Session-ID"                -> "693b2579c9ae70489252dba5"
   )
 
   def randomCharityRef(): String = {
@@ -60,7 +60,7 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
   val postUnregulatedDonationsRandom: HttpRequestBuilder =
     http("POST Unregulated Donations for Charity Ref randomly generated")
       .post { _ =>
-        val reference = randomCharityRef()
+        val reference  = randomCharityRef()
         val requestUrl = s"$formpUrl/charities/$reference/unregulated-donations"
         requestUrl
       }
@@ -77,7 +77,6 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
       )
       .asJson
       .check(status.is(200))
-
 
   val getUnregulatedDonationsRef1: HttpRequestBuilder =
     http("GET Unregulated Donations for Charity Ref OR1111")
@@ -104,7 +103,6 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
       )
       .asJson
       .check(status.is(200))
-
 
   val getUnregulatedDonationsRef2: HttpRequestBuilder =
     http("GET Unregulated Donations for Charity Ref OR2222")

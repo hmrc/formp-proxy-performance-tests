@@ -25,13 +25,13 @@ import uk.gov.hmrc.perftests.charities.CharitiesFormpRequests.{getUnregulatedDon
 trait CharitiesFormpAPI extends PerformanceTestRunner with BaseRequests {
   val charitiesFormP: List[ActionBuilder] =
     getAuthToken(authPayloadCharitiesOrg) ++
-    List[ActionBuilder](
-      postUnregulatedDonationsRandom,
-      getUnregulatedDonationsRef1,
-      postUnregulatedDonationsRandom,
-      getUnregulatedDonationsRef2,
-      postUnregulatedDonationsRandom,
-      getUnregulatedDonationsRef3
+      List[ActionBuilder](
+        postUnregulatedDonationsRandom,
+        getUnregulatedDonationsRef1,
+        postUnregulatedDonationsRandom,
+        getUnregulatedDonationsRef2,
+        postUnregulatedDonationsRandom,
+        getUnregulatedDonationsRef3
       )
 
   val charitiesFormPinserts: List[ActionBuilder] =
@@ -47,12 +47,12 @@ trait CharitiesFormpAPI extends PerformanceTestRunner with BaseRequests {
     "Charities GET and POST unregulated Donations Formp APIs"
   ) withActions (
     charitiesFormP: _*
-    )
+  )
 
   setup(
     "charities-static-chref-insert",
     "Charities POST FORMP for 3 Static Charity references"
   ) withActions (
     charitiesFormPinserts: _*
-    )
+  )
 }

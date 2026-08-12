@@ -36,8 +36,8 @@ trait BaseRequests extends ServicesConfiguration {
 
   // Charities ---------------------------------
 
-  val CsrfPattern           = """<input type="hidden" name="csrfToken" value="([^"]+)""""
-  val lookupPattern         = """<form method="POST" novalidate action="([^"]+)""""
+  val CsrfPattern   = """<input type="hidden" name="csrfToken" value="([^"]+)""""
+  val lookupPattern = """<form method="POST" novalidate action="([^"]+)""""
 
   def saveCsrfToken(): CheckBuilder[RegexCheckType, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
 
