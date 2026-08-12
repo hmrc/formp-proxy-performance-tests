@@ -37,26 +37,26 @@ object AuthLoginRequests extends ServicesConfiguration with BaseRequests {
       .check(header(HttpHeaderNames.Authorization).optional.saveAs("bearerToken"))
   ).actionBuilders
 
-  def authPayloadCharitiesOrg(): String = {
+  def authPayloadCharitiesAgent(): String = {
     val CredIdLength = 16
     val credId       = alphanumeric.take(CredIdLength).mkString
 
     s"""
        |{
        |  "confidenceLevel": 50,
-       |  "affinityGroup": "Organisation",
+       |  "affinityGroup": "Agent",
        |  "credentialStrength": "strong",
-       |  "credId": "#{randomLong(1,999999999)}",
+       |  "credId": "$credId",
        |  "credentialRole": "User",
        |  "email": "user@test.com",
        |  "excludeGnapToken": true,
        |  "enrolments": [
        |    {
-       |      "key": "HMRC-CHAR-ORG",
+       |      "key": "HMRC-CHAR-AGENT",
        |      "identifiers": [
        |        {
-       |          "key": "CHARID",
-       |          "value": "X1"
+       |          "key": "AGENTCHARID",
+       |          "value": "9999"
        |        }
        |      ],
        |      "state": "Activated"
