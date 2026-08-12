@@ -28,7 +28,9 @@ trait CharitiesFormpAPI extends PerformanceTestRunner with BaseRequests {
     List[ActionBuilder](
       postUnregulatedDonationsRandom,
       getUnregulatedDonationsRef1,
+      postUnregulatedDonationsRandom,
       getUnregulatedDonationsRef2,
+      postUnregulatedDonationsRandom,
       getUnregulatedDonationsRef3
       )
 

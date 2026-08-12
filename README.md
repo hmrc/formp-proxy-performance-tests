@@ -1,20 +1,30 @@
-**This is a template README.md.  Be sure to update this with project specific content that describes your performance test project.**
-
 # formp-proxy-performance-tests
 
-Performance test suite for the `<digital service name>`, using [performance-test-runner](https://github.com/hmrc/performance-test-runner) under the hood.
+Performance test suite for the `formp-proxy`, using [performance-test-runner](https://github.com/hmrc/performance-test-runner) under the hood.
 
 ## Pre-requisites
 
 ### Services
 
+Setup Oracle Database for FORMP Locally (using Docker or Lima as per preference)
+
 Start Mongo Docker container following instructions from the [MDTP Handbook](https://docs.tax.service.gov.uk/mdtp-handbook/documentation/developer-set-up/set-up-mongodb.html).
 
-Start `PLATFORM_TEST_EXAMPLE_UI_TESTS` services as follows:
+Start `FORMP_PROXY` services as follows:
 
 ```bash
-sm2 --start PLATFORM_TEST_EXAMPLE_UI_TESTS
+sm2 --start FORMP_PROXY
 ```
+
+### Adding and configuring the tests for different services
+
+This is API only performance test repo for formp-proxy microservice and its interaction with FORMP Oracle DB
+
+To setup your tests:
+1) Add your service's auth login stub payload in AuthLoginRequests
+2) Create new folder in parent folder uk/gov/hmrc/perftests/ for your service and create Object with the API requests
+3) Create Simulation Trait for your service in uk/gov/hmrc/perftests/simulation and update FormpSimulation.scala
+4) Update BaseRequests, journeys.conf as per requirement 
 
 ### Logging
 
