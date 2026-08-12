@@ -46,8 +46,9 @@ object AuthLoginRequests extends ServicesConfiguration with BaseRequests {
        |  "confidenceLevel": 50,
        |  "affinityGroup": "Organisation",
        |  "credentialStrength": "strong",
-       |  "credId": "$credId",
+       |  "credId": "#{randomLong(1,999999999)}",
        |  "credentialRole": "User",
+       |  "email": "user@test.com",
        |  "excludeGnapToken": true,
        |  "enrolments": [
        |    {
@@ -55,7 +56,7 @@ object AuthLoginRequests extends ServicesConfiguration with BaseRequests {
        |      "identifiers": [
        |        {
        |          "key": "CHARID",
-       |          "value": "#{charId}"
+       |          "value": "X1"
        |        }
        |      ],
        |      "state": "Activated"
