@@ -22,7 +22,6 @@ import io.gatling.http.request.builder.HttpRequestBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 import uk.gov.hmrc.perftests.BaseRequests
 
-import java.util.concurrent.ThreadLocalRandom
 import scala.util.Random
 
 object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
@@ -47,13 +46,12 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
     "X-Session-ID"                -> "693b2579c9ae70489252dba5"
   )
 
-  def randomCharityRef(): String = {
-    val letters =
-      (1 to 2)
-        .map(_ => ('A' + Random.nextInt(26)).toChar)
-        .mkString
-    val numbers =
-      Random.nextInt(90000) + 10000
+  /**
+   * Creates a fake random Charity Reference in the 2 upper case characters and 5 numeric characters
+   */
+  private def randomCharityRef(): String = {
+    val letters = Random.between(65, 90).toChar + Random.between(65, 90).toChar
+    val numbers = Random.between(10000, 99999)
     s"$letters$numbers"
   }
 
@@ -67,12 +65,10 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
       .headers(commonHeaders)
       .body(
         StringBody(
-          """
-          {
+          """{
             |  "claimId": #{randomLong(1,999999999)},
             |  "amount": #{randomLong(1,99999999)}
-            |}
-            |""".stripMargin
+            |}""".stripMargin
         )
       )
       .asJson
@@ -93,12 +89,10 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
       .headers(commonHeaders)
       .body(
         StringBody(
-          """
-          {
-             |  "claimId": #{randomLong(1,999999999)},
-             |  "amount": #{randomLong(1,99999999)}
-             |}
-             |""".stripMargin
+          """{
+            |  "claimId": #{randomLong(1,999999999)},
+            |  "amount": #{randomLong(1,99999999)}
+            |}""".stripMargin
         )
       )
       .asJson
@@ -119,12 +113,10 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
       .headers(commonHeaders)
       .body(
         StringBody(
-          s"""
-          {
+          s"""{
              |  "claimId": #{randomLong(1,999999999)},
              |  "amount": #{randomLong(1,99999999)}
-             |}
-             |""".stripMargin
+             |}""".stripMargin
         )
       )
       .asJson
@@ -145,12 +137,10 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
       .headers(commonHeaders)
       .body(
         StringBody(
-          s"""
-          {
+          s"""{
              |  "claimId": #{randomLong(1,999999999)},
              |  "amount": #{randomLong(1,99999999)}
-             |}
-             |""".stripMargin
+             |}""".stripMargin
         )
       )
       .asJson
@@ -171,12 +161,10 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
       .headers(commonHeaders)
       .body(
         StringBody(
-          s"""
-          {
+          s"""{
              |  "claimId": #{randomLong(1,999999999)},
              |  "amount": #{randomLong(1,99999999)}
-             |}
-             |""".stripMargin
+             |}""".stripMargin
         )
       )
       .asJson
