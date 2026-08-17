@@ -46,11 +46,10 @@ object CharitiesFormpRequests extends ServicesConfiguration with BaseRequests {
     "X-Session-ID"                -> "693b2579c9ae70489252dba5"
   )
 
-  /**
-   * Creates a fake random Charity Reference in the 2 upper case characters and 5 numeric characters
-   */
+  /** Creates a fake random Charity Reference in the 2 upper case characters and 5 numeric characters
+    */
   private def randomCharityRef(): String = {
-    val letters = Random.between(65, 90).toChar + Random.between(65, 90).toChar
+    val letters = s"${Random.between(65, 91).toChar}${Random.between(65, 91).toChar}"
     val numbers = Random.between(10000, 99999)
     s"$letters$numbers"
   }
