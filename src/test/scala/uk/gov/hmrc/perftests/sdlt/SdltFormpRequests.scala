@@ -41,6 +41,7 @@ object SdltFormpRequests extends ServicesConfiguration with BaseRequests {
   val returnResourceRef = "221"
   val userIdentifier = s"USER${Random.nextLong(999999999L)}"
   val formResultId = s"FRID-${Random.nextLong(999999999L)}"
+  val correlationId = s"CORR-${Random.nextLong(999999999L)}"
 
   val postSdltReturns: HttpRequestBuilder =
     http("POST returns for SDLT")
@@ -97,7 +98,7 @@ object SdltFormpRequests extends ServicesConfiguration with BaseRequests {
           s"""{
              |"userIdentifier": "$userIdentifier",
              |"formResultId" : "$formResultId",
-             |"correlationId" : "CORR-1",
+             |"correlationId" : "$correlationId",
              |"govTalkStatus" : {
              |    "formLock" : "0",
              |    "createTimestamp" : "2026-01-01 10:00:00",
