@@ -28,8 +28,13 @@ object SdltFormpRequests extends ServicesConfiguration with BaseRequests {
 
   val postReturns           = s"$formpUrl/create/return"
   val getReturns            = s"$formpUrl/retrieve-return"
+  val createVendor          = s"$formpUrl/filing/create/vendor"
   val createPurchaser       = s"$formpUrl/filing/create/purchaser"
-  val govtalkStatus         = s"$formpUrl/filing/govtalk-status"
+  val createLand            = s"$formpUrl/filing/create/land"
+  val createResidency       = s"$formpUrl/filing/create/residency"
+  val createLease           = s"$formpUrl/filing/create/lease"
+  val updateTransaction     = s"$formpUrl/filing/update/transaction"
+  val updateTaxCalc         = s"$formpUrl/filing/update/tax-calculation"
 
   def commonHeaders: Map[CharSequence, String] = Map(
     HttpHeaderNames.Authorization -> s"#{bearerToken}",
@@ -38,7 +43,7 @@ object SdltFormpRequests extends ServicesConfiguration with BaseRequests {
   )
 
   val stornId = "STORN12345"
-  val returnResourceRef = "221"
+  val returnResourceRef = "1"
   val userIdentifier = s"USER${Random.nextLong(999999999L)}"
   val formResultId = s"FRID-${Random.nextLong(999999999L)}"
   val correlationId = s"CORR-${Random.nextLong(999999999L)}"
@@ -85,50 +90,170 @@ object SdltFormpRequests extends ServicesConfiguration with BaseRequests {
         jsonPath("$.returnResourceRef").exists
       )
 
-
-  val postGovtalkStatus: HttpRequestBuilder =
-    http("Post govtalk status for SDLT")
+  val postCreateVendor: HttpRequestBuilder =
+    http("POST create vendor for SDLT")
       .post { _ =>
-        val requestUrl = govtalkStatus
+        val requestUrl = createVendor
         requestUrl
       }
       .headers(commonHeaders)
       .body(
         StringBody(
           s"""{
-             |"userIdentifier": "$userIdentifier",
-             |"formResultId" : "$formResultId",
-             |"correlationId" : "$correlationId",
-             |"govTalkStatus" : {
-             |    "formLock" : "0",
-             |    "createTimestamp" : "2026-01-01 10:00:00",
-             |    "endStateTimestamp" : null,
-             |    "lastMessageTimestamp" : "2026-01-01 10:05:00",
-             |    "numberOfPolls" : "0",
-             |    "pollInterval" : "10",
-             |    "protocolStatus" : "SUBMITTED",
-             |    "gatewayUrl" : "https://transaction-engine.example/submission"
-             |     }
+             |"stornId": "$stornId",
+             |"returnResourceRef": "$returnResourceRef",
+             |"name": "Company Vendor Ltd",
+             |"addressLine1": "VIT Park",
+             |"isRepresentedByAgent": "yes"
              |}""".stripMargin
         )
       )
       .asJson
-      .check(status.is(201)
-      )
+      .check(status.is(201))
 
-  val getGovtalkStatus: HttpRequestBuilder =
-    http("Get govtalk status for SDLT")
-      .get(govtalkStatus)
+  val postCreatePurchaser: HttpRequestBuilder =
+    http("POST create purchaser for SDLT")
+      .post { _ =>
+        val requestUrl = createPurchaser
+        requestUrl
+      }
       .headers(commonHeaders)
       .body(
         StringBody(
           s"""{
-             |"userIdentifier": "$userIdentifier",
-             |"formResultId" : "$formResultId"
+             |"stornId": "$stornId",
+             |"returnResourceRef": "$returnResourceRef",
+             |"isCompany":"YES",
+             |"isTrustee":"NO",
+             |"isConnectedToVendor":"NO",
+             |"isRepresentedByAgent": "NO",
+             |"companyName": "Tech Corp Ltd",
+             |"address1": "Business Park",
+             |"postcode": "EC1A 1BB"
              |}""".stripMargin
         )
       )
       .asJson
-      .check(status.is(200)
+      .check(status.is(201))
+
+  val postCreateLand: HttpRequestBuilder =
+    http("POST create land for SDLT")
+      .post { _ =>
+        val requestUrl = createLand
+        requestUrl
+      }
+      .headers(commonHeaders)
+      .body(
+        StringBody(
+          s"""{
+             |"stornId": "$stornId",
+             |"returnResourceRef": "$returnResourceRef",
+             |"propertyType": "RESIDENTIAL",
+             |"interestTransferredCreated":"FREEHOLD",
+             |"addressLine1":"Business Park"
+             |}""".stripMargin
+        )
       )
+      .asJson
+      .check(status.is(201))
+
+  val postCreateResidency: HttpRequestBuilder =
+    http("POST create residency for SDLT")
+      .post { _ =>
+        val requestUrl = createResidency
+        requestUrl
+      }
+      .headers(commonHeaders)
+      .body(
+        StringBody(
+          s"""{
+             |"stornId": "$stornId",
+             |"returnResourceRef": "$returnResourceRef",
+             |"residency" : {
+             |          "isNonUkResidents" : "no",
+             |          "isCompany" : "no",
+             |          "isCrownRelief" : "no"
+             |          }
+             |}""".stripMargin
+        )
+      )
+      .asJson
+      .check(status.is(201))
+
+  val postCreateLease: HttpRequestBuilder =
+    http("POST create lease for SDLT")
+      .post { _ =>
+        val requestUrl = createLease
+        requestUrl
+      }
+      .headers(commonHeaders)
+      .body(
+        StringBody(
+          s"""{
+             |"stornId": "$stornId",
+             |"returnResourceRef": "$returnResourceRef",
+             |"lease" : {
+             |          "isAnnualRentOver1000" : "YES",
+             |          "contractEndDate" : "2030-12-31",
+             |          "contractStartDate" : "2025-01-01",
+             |          "leaseType" : "COMMERCIAL",
+             |          "netPresentValue" : "50000",
+             |          "totalPremiumPayable" : "10000",
+             |          "rentFreePeriod" : "NO",
+             |          "startingRent": "12000",
+             |          "startingRentEndDate" : "2026-01-01",
+             |          "laterRentKnown" : "YES",
+             |          "vatAmount" : "2400"
+             |          }
+             |}""".stripMargin
+        )
+      )
+      .asJson
+      .check(status.is(201))
+
+  val postUpdateTransaction: HttpRequestBuilder =
+    http("POST update transaction for SDLT")
+      .post { _ =>
+        val requestUrl = updateTransaction
+        requestUrl
+      }
+      .headers(commonHeaders)
+      .body(
+        StringBody(
+          s"""{
+             |"storn": "$stornId",
+             |"returnResourceRef": "$returnResourceRef",
+             |"transaction" : {
+             |          "claimingRelief" : "N",
+             |          "isLinked" : "N",
+             |          "totalConsider" : "250000",
+             |          "considerCash" : "Y",
+             |          "contractDate" : "2025-01-15",
+             |          "effectiveDate" : "2025-02-01",
+             |          "transactionDescription" : "RESIDENTIAL"
+             |          }
+             |}""".stripMargin
+        )
+      )
+      .asJson
+      .check(status.is(200))
+
+  val postUpdateTaxCalc: HttpRequestBuilder =
+    http("POST update tax calc for SDLT")
+      .post { _ =>
+        val requestUrl = updateTaxCalc
+        requestUrl
+      }
+      .headers(commonHeaders)
+      .body(
+        StringBody(
+          s"""{
+             |"stornId": "$stornId",
+             |"returnResourceRef": "$returnResourceRef"
+             |}""".stripMargin
+        )
+      )
+      .asJson
+      .check(status.is(200))
+
 }

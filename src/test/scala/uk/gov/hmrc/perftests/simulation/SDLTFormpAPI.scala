@@ -27,9 +27,14 @@ trait SDLTFormpAPI extends PerformanceTestRunner with BaseRequests {
     getAuthToken(authPayloadSdlt) ++
       List[ActionBuilder](
         postSdltReturns,
-        getSDLTReturns,
-        postGovtalkStatus,
-        getGovtalkStatus
+        postCreatePurchaser,
+        postCreateVendor,
+        postCreateLand,
+        postCreateResidency,
+        postCreateLease,
+        postUpdateTransaction,
+        postUpdateTaxCalc,
+        getSDLTReturns
       )
 
 
