@@ -30,7 +30,6 @@ trait SDLTFormpAPI extends PerformanceTestRunner with BaseRequests {
         postCreatePurchaser,
         postCreateVendor,
         postCreateLand,
-        postCreateResidency,
         postCreateLease,
         postUpdateTransaction,
         postUpdateTaxCalc,
