@@ -26,15 +26,15 @@ import scala.util.Random
 
 object SdltFormpRequests extends ServicesConfiguration with BaseRequests {
 
-  val postReturns           = s"$formpUrl/create/return"
-  val getReturns            = s"$formpUrl/retrieve-return"
-  val createVendor          = s"$formpUrl/filing/create/vendor"
-  val createPurchaser       = s"$formpUrl/filing/create/purchaser"
-  val createLand            = s"$formpUrl/filing/create/land"
-  val createResidency       = s"$formpUrl/filing/create/residency"
-  val createLease           = s"$formpUrl/filing/create/lease"
-  val updateTransaction     = s"$formpUrl/filing/update/transaction"
-  val updateTaxCalc         = s"$formpUrl/filing/update/tax-calculation"
+  val postReturns       = s"$formpUrl/create/return"
+  val getReturns        = s"$formpUrl/retrieve-return"
+  val createVendor      = s"$formpUrl/filing/create/vendor"
+  val createPurchaser   = s"$formpUrl/filing/create/purchaser"
+  val createLand        = s"$formpUrl/filing/create/land"
+  val createResidency   = s"$formpUrl/filing/create/residency"
+  val createLease       = s"$formpUrl/filing/create/lease"
+  val updateTransaction = s"$formpUrl/filing/update/transaction"
+  val updateTaxCalc     = s"$formpUrl/filing/update/tax-calculation"
 
   def commonHeaders: Map[CharSequence, String] = Map(
     HttpHeaderNames.Authorization -> s"#{bearerToken}",
@@ -42,11 +42,11 @@ object SdltFormpRequests extends ServicesConfiguration with BaseRequests {
     "X-Session-ID"                -> "693b2579c9ae70489252dba5"
   )
 
-  val stornId = "STORN12345"
+  val stornId           = "STORN12345"
   val returnResourceRef = "1"
-  val userIdentifier = s"USER${Random.nextLong(999999999L)}"
-  val formResultId = s"FRID-${Random.nextLong(999999999L)}"
-  val correlationId = s"CORR-${Random.nextLong(999999999L)}"
+  val userIdentifier    = s"USER${Random.nextLong(999999999L)}"
+  val formResultId      = s"FRID-${Random.nextLong(999999999L)}"
+  val correlationId     = s"CORR-${Random.nextLong(999999999L)}"
 
   val postSdltReturns: HttpRequestBuilder =
     http("POST returns for SDLT")
@@ -86,9 +86,7 @@ object SdltFormpRequests extends ServicesConfiguration with BaseRequests {
         )
       )
       .asJson
-      .check(status.is(200),
-        jsonPath("$.returnResourceRef").exists
-      )
+      .check(status.is(200), jsonPath("$.returnResourceRef").exists)
 
   val postCreateVendor: HttpRequestBuilder =
     http("POST create vendor for SDLT")

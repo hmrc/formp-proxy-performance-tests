@@ -65,37 +65,9 @@ object AuthLoginRequests extends ServicesConfiguration with BaseRequests {
        |""".stripMargin
   }
 
-  //  private def authPayloadCISAgent(): String = {
-  //    val CredIdLength = 16
-  //    val credId       = alphanumeric.take(CredIdLength).mkString
-  //
-  //    s"""
-  //       |{
-  //       |  "confidenceLevel": 50,
-  //       |  "affinityGroup": "Agent",
-  //       |  "credentialStrength": "strong",
-  //       |  "credId": "$credId",
-  //       |  "credentialRole": "User",
-  //       |  "excludeGnapToken": true,
-  //       |  "enrolments": [
-  //       |    {
-  //       |      "key": "HMRC-CHAR-ORG",
-  //       |      "identifiers": [
-  //       |        {
-  //       |          "key": "CHARID",
-  //       |          "value": "#{charId}"
-  //       |        }
-  //       |      ],
-  //       |      "state": "Activated"
-  //       |    }
-  //       |  ]
-  //       |}
-  //       |""".stripMargin
-  //  }
-
   def authPayloadSdlt(): String = {
     val CredIdLength = 16
-    val credId = Random.alphanumeric.take(CredIdLength).mkString
+    val credId       = Random.alphanumeric.take(CredIdLength).mkString
 
     s"""
        |{
@@ -122,4 +94,35 @@ object AuthLoginRequests extends ServicesConfiguration with BaseRequests {
        |""".stripMargin
   }
 
+  def authPayloadCisOrg: String = {
+    val CredIdLength = 16
+    val credId       = Random.alphanumeric.take(CredIdLength).mkString
+
+    s"""
+       |{
+       |  "credId": "$credId",
+       |  "credentialStrength": "strong",
+       |  "confidenceLevel": 50,
+       |  "credentialRole": "User",
+       |  "affinityGroup": "Organisation",
+       |  "excludeGnapToken": true,
+       |  "enrolments": [
+       |    {
+       |      "key": "HMRC-CIS-ORG",
+       |      "identifiers": [
+       |        {
+       |          "key": "TaxOfficeNumber",
+       |          "value": "754"
+       |        },
+       |         {
+       |          "key": "TaxOfficeReference",
+       |          "value": "EZ10800"
+       |        }
+       |      ],
+       |      "state": "Activated"
+       |    }
+       |  ]
+       |}
+       |""".stripMargin
+  }
 }

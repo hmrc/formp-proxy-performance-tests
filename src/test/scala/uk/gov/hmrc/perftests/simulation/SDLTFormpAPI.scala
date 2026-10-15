@@ -36,12 +36,11 @@ trait SDLTFormpAPI extends PerformanceTestRunner with BaseRequests {
         getSDLTReturns
       )
 
-
   setup(
     "sdlt-get-post-formp",
     "SDLT GET and POST returns Formp APIs"
   ) withActions (
     sdltFormP: _*
-    )
+  )
 
 }
