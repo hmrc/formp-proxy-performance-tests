@@ -29,7 +29,7 @@ object CisFormpRequests extends ServicesConfiguration with BaseRequests {
   // Monthly Return URLs
   val getMonthlyReturnsUrl                        = s"$formpUrl/monthly-returns"
   val getUnsubmittedReturnsUrl                    = s"$formpUrl/cis/retrieve-unsubmitted-monthly-returns"
-  val getSubmittedReturnsUrl                      = s"$formpUrl/cis-retrieve-submitted-monthly-returns"
+  val getSubmittedReturnsUrl                      = s"$formpUrl/cis/retrieve-submitted-monthly-returns"
   val postUpdateMonthlyReturnUrl                  = s"$formpUrl/cis/monthly-return/update"
   val getMonthlyReturnForEditUrl                  = s"$formpUrl/cis/monthly-return-edit"
   val getCompleteMonthlyReturnUrl                 = s"$formpUrl/cis/monthly-return-complete"
@@ -127,7 +127,7 @@ object CisFormpRequests extends ServicesConfiguration with BaseRequests {
 
   val getSubmittedMonthlyReturns: HttpRequestBuilder =
     http("GET Submitted monthly returns")
-      .post(getUnsubmittedReturnsUrl)
+      .post(getSubmittedReturnsUrl)
       .headers(commonHeaders)
       .body(
         StringBody(
