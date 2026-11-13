@@ -419,7 +419,8 @@ object CisFormpRequests extends ServicesConfiguration with BaseRequests {
              |      "verified": "Y",
              |      "verificationNumber": "V1234567890",
              |      "taxTreatment": "gross",
-             |      "verifiedDate": "2026-10-11T13:11:53"
+             |      "verifiedDate": "2026-10-11T13:11:53",
+             |      "matchedToRequest": true
              |    },
              |      {
              |      "resourceRef": 4,
@@ -427,7 +428,8 @@ object CisFormpRequests extends ServicesConfiguration with BaseRequests {
              |      "verified": "Y",
              |      "verificationNumber": "V1234567890",
              |      "taxTreatment": "gross",
-             |      "verifiedDate": "2026-10-11T13:11:53"
+             |      "verifiedDate": "2026-10-11T13:11:53",
+             |      "matchedToRequest": true
              |    }
              |  ]
              |}""".stripMargin

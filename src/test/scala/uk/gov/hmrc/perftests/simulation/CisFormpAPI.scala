@@ -70,6 +70,7 @@ trait CisFormpAPI extends PerformanceTestRunner with BaseRequests {
         postUpdateSubmissionFromChrisResponse,
         getSubmissionAndVerificationBatchRecord,
         postProceedVerification,
+        getSubmittedVerifications,
         postUpdateVerificationSubmission,
         getSubmissionWithVerificationBatchByRefs("872", "2")
       )
