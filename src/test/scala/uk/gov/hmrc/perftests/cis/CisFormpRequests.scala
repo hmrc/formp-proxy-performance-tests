@@ -362,7 +362,7 @@ object CisFormpRequests extends ServicesConfiguration with BaseRequests {
              |  "irMarkReceived": "v6fHrpPRtaCFPQgBdx/dCEC9O1s=",
              |  "verificationResults": [
              |    {
-             |      "resourceRef": 3,
+             |      "resourceRef": 2,
              |      "matched": "Y",
              |      "verified": "Y",
              |      "verificationNumber": "V1234567890",
