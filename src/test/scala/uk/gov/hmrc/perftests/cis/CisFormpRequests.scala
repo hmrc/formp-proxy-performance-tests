@@ -20,6 +20,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
+import java.util.concurrent.atomic.AtomicInteger
 import uk.gov.hmrc.perftests.BaseRequests
 
 import scala.util.Random
@@ -89,6 +90,10 @@ object CisFormpRequests extends ServicesConfiguration with BaseRequests {
   private def selectRandomSubmissionStatus: String = submissionStatus(Random.nextInt(submissionStatus.length))
 
   val govTalkGatewayUrl = "https://chris.ws.ibt.hmrc.gov.uk/ChRIS/CISR/Filing/action/CISR"
+
+  val updateIdFeeder  = Array(863, 864, 865, 872)
+  val processIDFeeder = Array(873, 874, 899)
+  val counter         = new AtomicInteger(0)
 
   val getAllMonthlyReturns: HttpRequestBuilder =
     http("GET All monthly returns")
@@ -347,9 +352,10 @@ object CisFormpRequests extends ServicesConfiguration with BaseRequests {
       .post(postUpdateSubmissionFromChrisResponseUrl)
       .headers(commonHeaders)
       .body(
-        StringBody(
-          """{
-             |  "instanceId": "872",
+        StringBody { _ =>
+          val n = counter.getAndIncrement()
+          s"""{
+             |  "instanceId": "${processIDFeeder(n % processIDFeeder.length)}",
              |  "verificationBatchResourceRef": 2,
              |  "acceptedTime": "2026-10-11T13:11:54",
              |  "submissionStatus": "SUBMITTED",
@@ -363,19 +369,10 @@ object CisFormpRequests extends ServicesConfiguration with BaseRequests {
              |      "taxTreatment": "gross",
              |      "verifiedDate": "2026-10-11T13:11:53",
              |      "matchedToRequest": true
-             |    },
-             |      {
-             |      "resourceRef": 4,
-             |      "matched": "Y",
-             |      "verified": "Y",
-             |      "verificationNumber": "V1234567890",
-             |      "taxTreatment": "gross",
-             |      "verifiedDate": "2026-10-11T13:11:53",
-             |      "matchedToRequest": true
              |    }
              |  ]
              |}""".stripMargin
-        )
+        }
       )
       .asJson
       .check(status.is(204))
@@ -414,9 +411,10 @@ object CisFormpRequests extends ServicesConfiguration with BaseRequests {
       .post(postUpdateVerificationSubmissionUrl)
       .headers(commonHeaders)
       .body(
-        StringBody(
-          """{
-             |  "instanceId": "872",
+        StringBody { _ =>
+          val n = counter.getAndIncrement()
+          s"""{
+             |  "instanceId": "${updateIdFeeder(n % updateIdFeeder.length)}",
              |  "verificationBatchResourceRef": 2,
              |  "hmrcMarkGenerated": null,
              |  "submissionRequestDate": null,
@@ -424,7 +422,7 @@ object CisFormpRequests extends ServicesConfiguration with BaseRequests {
              |  "govtalkErrorCode": "500",
              |  "govtalkErrorType": "timeOut"
              |}""".stripMargin
-        )
+        }
       )
       .asJson
       .check(status.is(204))
